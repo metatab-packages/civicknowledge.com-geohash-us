@@ -1,0 +1,66 @@
+Declare,metatab-latest
+Title,Geohashes and Tracts for Continential US
+Description,Linkes between geohashes and tracts for the continential us
+Identifier,a9f3173f-eefe-43ed-b921-7feb861d2e3a
+Name,civicknowledge.com-geohash-us-1.1.1
+Dataset,geohash
+Origin,civicknowledge.com
+Time,
+Space,us
+Grain,
+Variant,
+Version,1.1.1
+Version.Major,1
+Version.Minor,1
+Version.Patch,1
+Created,2021-01-29T18:38:15
+Modified,2021-01-31T04:00:34
+Giturl,https://github.com/metatab-packages/civicknowledge.com-geohash-us.git
+""
+Section,Contacts,Email,Organization,Url
+Wrangler,Eric Busboom,eric@civicknowledge.com,Civic Knowledge,http://civicknowledge.com
+""
+Section,Documentation,Title,Description,
+Documentation,file:README.md,README,,
+""
+Section,References,Name,Description,
+Reference,censusgeo://2019/5/US/state,us_states,US States geographic boundaries,
+Reference,censusgeo://2019/5/{st}/tract,us_tracts_template,Template URL for US tracts,
+""
+Section,Resources,Name,Description,
+Datafile,notebooks/Extract.ipynb#tracts,us_tracts,"Census tracts in the continential US, with geohash and UTM zone",
+Datafile,notebooks/Extract.ipynb#ghdf,us_geohashes,"Four digit geohashes in  the continential US, with UTM zone",
+Datafile,notebooks/Extract.ipynb#ovl,tract_geohash overlay,Links between geohashes and tracts and the portion of their overlap.,
+""
+Section,Schema,DataType,Description
+Table,us_tracts,,
+Table.Column,geoid,string,
+Table.Column,tract_id,integer,
+Table.Column,geohash,string,
+Table.Column,statefp,integer,
+Table.Column,intptlat,number,
+Table.Column,intptlon,number,
+Table.Column,geometry,string,
+Table.Column,aland,integer,
+Table.Column,awater,integer,
+Table.Column,gh4,string,
+Table.Column,utm_epsg,integer,
+Table,us_geohashes,,
+Table.Column,geohash,string,
+Table.Column,geometry,string,
+Table.Column,dx,number,
+Table.Column,dy,number,
+Table.Column,utm_epsg,integer,
+Table.Column,utm_area,number,
+Table.Column,gh_area,number,
+Table,tract_geohash overlay,,
+Table.Column,geohash,string,
+Table.Column,tract_id,integer,
+Table.Column,geoid,string,
+Table.Column,aland,integer,
+Table.Column,awater,integer,
+Table.Column,tract_area,integer,
+Table.Column,gh_area,integer,
+Table.Column,ovl_area,integer,
+Table.Column,gh_in_tract_prop,number,
+Table.Column,tract_in_gh_prop,number,
