@@ -25,7 +25,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
 # From https://gis.stackexchange.com/a/269552
 def convert_wgs_to_utm(lat, lon):
     import math
@@ -247,7 +246,7 @@ class ExtractManager(object):
                 logger.info(f"Creating {o}{' (forcing)' if force else ''}")
                 d = getattr(self,o)
                 logger.info(f"Write {o}")
-                d.to_csv(p)
+                d.to_csv(p, index=False)
             else:
                 logger.info(f"{o} already exists")
 

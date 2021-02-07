@@ -2,19 +2,19 @@ Declare,metatab-latest
 Title,Geohashes and Tracts for Continential US
 Description,Linkes between geohashes and tracts for the continential us
 Identifier,a9f3173f-eefe-43ed-b921-7feb861d2e3a
-Name,civicknowledge.com-geohash-us-1.1.1
+Name,civicknowledge.com-geohash-us-1.1.2
 Dataset,geohash
 Origin,civicknowledge.com
 Time,
 Space,us
 Grain,
 Variant,
-Version,1.1.1
+Version,1.1.2
 Version.Major,1
 Version.Minor,1
-Version.Patch,1
+Version.Patch,2
 Created,2021-01-29T18:38:15
-Modified,2021-02-04T16:35:42
+Modified,2021-02-05T05:34:00
 Giturl,https://github.com/metatab-packages/civicknowledge.com-geohash-us.git
 ""
 Section,Contacts,Email,Organization,Url
@@ -45,7 +45,6 @@ Table.Column,geometry,string,,,
 Table.Column,aland,integer,,,
 Table.Column,awater,integer,,,
 Table.Column,gh4,string,,,
-Table.Column,utm_epsg,integer,,,
 Table,us_geohashes,,,,
 Table.Column,geohash,string,,,
 Table.Column,geometry,string,,,
@@ -66,6 +65,5 @@ Table.Column,ovl_area,integer,,,
 Table.Column,gh_in_tract_prop,number,,,
 Table.Column,tract_in_gh_prop,number,,,
 Table,geo2tracts,,,,
-Table.Column,,integer,,col0,
 Table.Column,geohash,string,,,
 Table.Column,geoid,string,,,
