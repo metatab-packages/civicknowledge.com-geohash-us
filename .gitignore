@@ -8,3 +8,9 @@ metadata.txt
 _packages
 *.pyc
 .DS_Store
+
+.idea
+data/geo_to_tract.csv
+data/geohashes.csv
+data/overlay.csv
+data/tracts.csv
