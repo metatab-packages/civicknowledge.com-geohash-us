@@ -74,6 +74,7 @@ class ExtractManager(object):
         self._geo_to_tract = None
         self._ghdf = None
         self._overlay = None
+        self._zones = None
 
         self.ea_epsg = 2163  # US Equal Area projection
 
@@ -85,6 +86,38 @@ class ExtractManager(object):
 
         return self._continental_states
 
+    def tract_zones(self):
+        if self._zones is None:
+
+            tracts = self.tracts
+
+            grd = self.pkg.reference('utm_grid').package.resource('utm_grid').geoframe()
+            grd = grd[grd.cus_state == 1]
+
+            frames = []
+
+            for idx, g in grd.groupby('epsg'):
+                g['geometry'] = g.to_crs(idx).buffer(15000).to_crs(4326)
+                g['epsg'] = idx
+                frames.append(g)
+
+            buffered = pd.concat(frames)
+
+            g = gpd.sjoin(grd, tracts)
+            b = gpd.sjoin(buffered, tracts)
+
+            self._zones = g, b
+
+        return self._zones
+
+    @property
+    def utm_zones(self):
+        return self.tract_zones()[0][['geoid','zone', 'epsg']]
+
+    @property
+    def utm_buffered_zones(self):
+        return self.tract_zones()[1][['geoid','zone', 'epsg']]
+
     @property
     def tracts(self):
 
@@ -93,10 +126,10 @@ class ExtractManager(object):
             url_t = self.pkg.reference('us_tracts_template').url
             frames = [rg.geoframe(url_t.format(st=st)) for st in tqdm(stusab.values())]
 
-            tracts = pd.concat(frames)
+            tracts = pd.concat(frames).to_crs(4326)
 
             # Mark the tracts in the continential US
-            tracts['continential'] = tracts.statefp.isin(self.states.statefp.unique())
+            tracts['continential'] = tracts.statefp.isin(self.states.statefp.unique()).astype(int)
             tracts['tract_id'] = tracts.reset_index().index
 
             # Need to convert to each UTM zone to get accurate area
@@ -111,10 +144,11 @@ class ExtractManager(object):
 
             tracts['gh4'] = tracts.geohash.str.slice(0, 4)
 
-            tracts = tracts[tracts.continential]
             self._tracts = tracts[
-                ['geoid', 'tract_id', 'geohash', 'statefp', 'intptlat', 'intptlon', 'geometry', 'aland', 'awater',
-                 'gh4']]
+               ['geoid', 'tract_id', 'geohash', 'statefp', 'intptlat', 'intptlon', 'geometry', 'aland', 'awater',
+                 'gh4', 'continential']]
+
+
 
         return self._tracts
 
@@ -231,7 +265,7 @@ class ExtractManager(object):
 
         return self._overlay
 
-    outputs = ('tracts', 'geohashes', 'geo_to_tract','overlay')
+    outputs = ('tracts', 'geohashes', 'geo_to_tract','overlay','utm_zones','utm_buffered_zones')
 
     def build(self, force=False):
 
