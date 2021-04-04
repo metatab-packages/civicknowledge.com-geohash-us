@@ -11,9 +11,6 @@ from metapack_build.tasks.package import build as mp_build
 
 SearchUrl.initialize()  # This makes the 'index:" urls work
 
-sys.path.append(str(Path(__file__).parent.resolve()))
-
-import pylib
 
 from metapack_build.tasks.package import ns
 
@@ -41,25 +38,47 @@ from metapack_build.tasks.package import ns
 from pathlib import Path
 import metapack as mp
 
+# Finding the package dir is easy for `mp` commands, but
+# the easy procedure returns wrong results when using invoke
+def get_pkg_dir():
+
+    pkg_dir = Path(__file__).resolve().parent
+
+    if pkg_dir.is_dir():
+        return pkg_dir
+
+    if Path.cwd().joinpath('tasks.py').exists():
+        return Path.cwd()
+
+    raise Exception("Can't determine package director")
+
 
 @task(optional=['force'])
 def build(c, force=None):
     """Build a filesystem package."""
 
+    sys.path.append(str(Path(__file__).parent.resolve()))
+    import pylib
+
     import logging
     from pylib import logger
-    logging.basicConfig()
-    logger.setLevel(logging.INFO)
 
-    pkg_dir = str(Path(__file__).parent.resolve())
-    print(f"Pkg dir: {pkg_dir}")
+    try:
+        logging.basicConfig()
+        logger.setLevel(logging.INFO)
 
-    pkg = mp.open_package(pkg_dir)
+        pkg_dir = str(get_pkg_dir())
 
-    ex = pylib.ExtractManager(pkg)
-    ex.build(force)
+        print(f"Pkg dir: {pkg_dir}")
 
-    mp_build(c, force)
+        pkg = mp.open_package(pkg_dir)
+
+        ex = pylib.ExtractManager(pkg)
+        ex.build(force)
+
+        mp_build(c, force)
+    finally:
+        sys.path.pop() # So other packages won't get this pylib
 
 
 ns.add_task(build)

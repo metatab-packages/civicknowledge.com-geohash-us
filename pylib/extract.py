@@ -123,6 +123,7 @@ class ExtractManager(object):
 
         if self._tracts is None:
             logger.info("Building tracts")
+
             url_t = self.pkg.reference('us_tracts_template').url
             frames = [rg.geoframe(url_t.format(st=st)) for st in tqdm(stusab.values())]
 
