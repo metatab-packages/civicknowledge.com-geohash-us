@@ -25,6 +25,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+import warnings
+# For:
+# WARNING:fiona._env:Recode from CP437 to UTF-8 failed with the error: "Invalid argument".
+warnings.filterwarnings('ignore')
+
 # From https://gis.stackexchange.com/a/269552
 def convert_wgs_to_utm(lat, lon):
     import math
