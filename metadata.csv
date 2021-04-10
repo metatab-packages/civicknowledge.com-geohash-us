@@ -16,18 +16,18 @@ Version.Patch,1
 Created,2021-01-29T18:38:15
 Modified,2021-02-09T23:34:23
 Giturl,https://github.com/metatab-packages/civicknowledge.com-geohash-us.git
-""
+
 Section,Contacts,Email,Organization,Url
 Wrangler,Eric Busboom,eric@civicknowledge.com,Civic Knowledge,http://civicknowledge.com
-""
+
 Section,Documentation,Title,Description,
 Documentation,file:README.md,README,,
-""
+
 Section,References,Name,Description,
 Reference,censusgeo://2019/5/US/state,us_states,US States geographic boundaries,
 Reference,censusgeo://2019/5/{st}/tract,us_tracts_template,Template URL for US tracts,
-Reference,metapack+http://library.metatab.org/civicknowledge.com-mgrs-1.1.4.csv,utm_grid,UTM/MGRS grid,
-""
+Reference,index:civicknowledge.com-mgrs.csv,utm_grid,UTM/MGRS grid,
+
 Section,Resources,Name,Description,Schema
 Datafile,data/tracts.csv,us_tracts,"Census tracts in the continential US, with geohash and UTM zone",
 Datafile,data/geohashes.csv,us_geohashes,"Four digit geohashes in  the continential US, with UTM zone",
@@ -35,7 +35,7 @@ Datafile,data/overlay.csv,tract_geohash overlay,Links between geohashes and trac
 Datafile,data/geo_to_tract.csv,geo2tracts,"Links from geohashes to tracts, by the location of the geohash centroid",
 Datafile,data/utm_zones.csv,utm_zones,,utm_zones
 Datafile,data/utm_buffered_zones.csv,utm_buffered_zones,,utm_zones
-""
+
 Section,Schema,DataType,Description,Altname,Has_Codes
 Table,us_tracts,,,,
 Table.Column,geoid,string,,,
